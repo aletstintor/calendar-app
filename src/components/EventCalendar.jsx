@@ -36,7 +36,7 @@ const EventCalendar = ({ onSelectDate }) => {
     });
 
     return (
-        <div className="col">
+        <div>
             <h2>Calendario</h2>
             <Calendar
                 value={date}

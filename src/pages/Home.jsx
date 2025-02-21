@@ -19,9 +19,7 @@ const Home = () => {
   return (
     <div className="p-d-flex p-flex-column p-jc-center p-ai-center">
       <h1>{getGreeting()}</h1>
-      <div className="grid">
       <EventManager />
-      </div>
     </div>
   );
 };

@@ -26,7 +26,7 @@ const EventAgenda = ({ events }) => {
   }, []);
 
   return (
-    <div className="col">
+    <div>
       <h2>Agenda</h2>
 
       {paginatedEvents.length > 0 ? (
