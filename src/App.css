@@ -1,0 +1,53 @@
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.main-content {
+    min-height: calc(100vh - 120px);
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .p-menubar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .p-menubar-end {
+        margin-top: 10px;
+    }
+    
+    .home-container {
+    flex-direction: column;
+  }
+
+  .calendar-section,
+  .agenda-section {
+    flex: 1;
+  }
+}
+
+.home-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.calendar-section {
+    flex: 3;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.agenda-section {
+    flex: 3;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
