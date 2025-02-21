@@ -18,7 +18,7 @@ const EventCalendar = ({ onSelectDate }) => {
     const handleDateSelect = (e) => {
         const selectedDate = new Date(e.value);
         setDate(selectedDate);
-        
+
         if (onSelectDate) {
             onSelectDate(selectedDate);
         }

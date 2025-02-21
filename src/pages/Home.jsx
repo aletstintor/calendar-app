@@ -1,9 +1,5 @@
-import { useRef } from "react";
-import { Card } from "primereact/card";
-import { Toast } from "primereact/toast";
-import EventCalendar from "../components/EventCalendar";
-import EventAgenda from "../components/EventAgenda";
 import useICalWatcher from "../hooks/useICalWatcher";
+import EventManager from "../components/EventManager";
 
 const Home = () => {
   const events = useICalWatcher();
@@ -24,8 +20,7 @@ const Home = () => {
     <div className="p-d-flex p-flex-column p-jc-center p-ai-center">
       <h1>{getGreeting()}</h1>
       <div className="grid">
-        <EventCalendar events={events} />
-        <EventAgenda events={events} />
+      <EventManager />
       </div>
     </div>
   );

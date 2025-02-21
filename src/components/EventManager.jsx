@@ -18,7 +18,7 @@ const EventManager = () => {
 
     const handleDateSelect = (date) => {
         const formattedDate = new Date(date).toDateString();
-        const eventsOnDate = events.filter(event => 
+        const eventsOnDate = events.filter(event =>
             new Date(event.date).toDateString() === formattedDate
         );
         console.log("Eventos filtrados para la fecha seleccionada:", eventsOnDate);

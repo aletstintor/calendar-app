@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Card } from "primereact/card";
 import { Paginator } from "primereact/paginator";
 import "../styles/EventAgenda.css";
@@ -7,21 +7,23 @@ const EventAgenda = ({ events }) => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(2);
 
-  const sortedEvents = [...events].sort(
-    (a, b) => new Date(b.date) - new Date(a.date)
-  );
+  const sortedEvents = useMemo(() => {
+    return [...events].sort((a, b) => new Date(b.date) - new Date(a.date));
+  }, [events]);
 
-  const onPageChange = (event) => {
+  const onPageChange = useCallback((event) => {
     setFirst(event.first);
     setRows(event.rows);
-  };
+  }, []);
 
-  const paginatedEvents = sortedEvents.slice(first, first + rows);
+  const paginatedEvents = useMemo(() => {
+    return sortedEvents.slice(first, first + rows);
+  }, [sortedEvents, first, rows]);
 
-  const isEventExpired = (eventDate, eventTime) => {
+  const isEventExpired = useCallback((eventDate, eventTime) => {
     const eventDateTime = new Date(`${eventDate}T${eventTime}`);
     return new Date() > eventDateTime;
-  };
+  }, []);
 
   return (
     <div className="col">
