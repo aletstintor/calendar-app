@@ -7,13 +7,11 @@ export const fetchEventsFromICal = async () => {
 
     const events = await response.json();
     if (!Array.isArray(events) || events.length === 0) {
-      console.warn("No hay eventos disponibles.");
+      return [];
     }
 
-    console.log("Eventos obtenidos:", events);
     return events;
   } catch (error) {
-    console.error("Error fetching events:", error);
     return [];
   }
 };

@@ -9,11 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors());
-app.use(express.json()); // Permite manejar JSON en el servidor
+app.use(express.json());
 
 app.get("/api/events", async (req, res) => {
   try {
-    const url = process.env.ICAL_URL; // Asegúrate de definir ICAL_URL en tu .env
+    const url = process.env.ICAL_URL;
     if (!url) {
       return res.status(400).json({ error: "ICAL_URL no está definida" });
     }
@@ -35,11 +35,8 @@ app.get("/api/events", async (req, res) => {
 
     res.json(parsedEvents);
   } catch (error) {
-    console.error("Error al obtener eventos iCal:", error);
     res.status(500).json({ error: "Error obteniendo los eventos", details: error.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+app.listen(PORT);

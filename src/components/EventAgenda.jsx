@@ -3,6 +3,18 @@ import { Card } from "primereact/card";
 import { Paginator } from "primereact/paginator";
 import "../styles/EventAgenda.css";
 
+const isEventExpired = (eventDate, eventTime) => {
+  const times = eventTime.split(" - ");
+  let endTimeStr;
+  if (times.length === 2) {
+    endTimeStr = times[1].trim();
+  } else {
+    endTimeStr = eventTime.trim();
+  }
+  const eventEndDateTime = new Date(`${eventDate}T${endTimeStr}:00`);
+  return new Date() > eventEndDateTime;
+};
+
 const EventAgenda = ({ events }) => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(2);
@@ -19,11 +31,6 @@ const EventAgenda = ({ events }) => {
   const paginatedEvents = useMemo(() => {
     return sortedEvents.slice(first, first + rows);
   }, [sortedEvents, first, rows]);
-
-  const isEventExpired = useCallback((eventDate, eventTime) => {
-    const eventDateTime = new Date(`${eventDate}T${eventTime}`);
-    return new Date() > eventDateTime;
-  }, []);
 
   return (
     <div>
@@ -51,7 +58,7 @@ const EventAgenda = ({ events }) => {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={event.link !== "#" && !event.expired ? "p-enabled" : "p-disabled"}
+                      className={event.link !== "#" ? "p-enabled" : "p-disabled"}
                     >
                       {event.link !== "#" ? "Enlace del evento" : "Sin enlace"}
                     </a>
