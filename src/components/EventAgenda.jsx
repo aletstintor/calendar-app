@@ -27,8 +27,6 @@ const EventAgenda = ({ events }) => {
 
   return (
     <div>
-      <h2>Agenda</h2>
-
       {paginatedEvents.length > 0 ? (
         <div className="p-grid">
           {paginatedEvents.map((event) => (
@@ -53,6 +51,7 @@ const EventAgenda = ({ events }) => {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
+                      className={event.link !== "#" && !event.expired ? "p-enabled" : "p-disabled"}
                     >
                       {event.link !== "#" ? "Enlace del evento" : "Sin enlace"}
                     </a>

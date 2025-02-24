@@ -1,50 +1,90 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import EventCalendar from "./EventCalendar";
 import EventAgenda from "./EventAgenda";
 import { fetchEventsFromICal } from "../utils/icalParser";
 import "primeflex/primeflex.css";
+import { Card } from "primereact/card";
+import { Panel } from "primereact/panel";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const EventManager = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvents, setSelectedEvents] = useState([]);
-  const [selectedDate, setSelectedDate] = useState(new Date()); // Fecha actual por defecto
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [loading, setLoading] = useState(true);
+  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); // Estado del mes actual
 
+  // Obtener eventos del mes seleccionado
   useEffect(() => {
-    const getEvents = async () => {
-      const fetchedEvents = await fetchEventsFromICal();
-      console.log("Eventos obtenidos en EventManager:", fetchedEvents);
-      setEvents(fetchedEvents);
+    const getEventsForMonth = async () => {
+      try {
+        setLoading(true);
+        const fetchedEvents = await fetchEventsFromICal();
+        const filteredEvents = filterEventsByMonth(fetchedEvents, currentMonth);
+        setEvents(filteredEvents);
+        filterEventsByDate(selectedDate, filteredEvents);
+      } catch (error) {
+        console.error("Error al obtener eventos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getEventsForMonth();
+  }, [currentMonth]); // Se ejecuta cuando cambia el mes
 
-      // Filtrar eventos para la fecha actual al cargar
-      const formattedDate = new Date().toDateString();
-      const eventsOnDate = fetchedEvents.filter(
+  // Filtrar eventos por mes
+  const filterEventsByMonth = (eventList, month) => {
+    return eventList.filter(event => new Date(event.date).getMonth() === month);
+  };
+
+  // Filtrar eventos por fecha seleccionada
+  const filterEventsByDate = useCallback(
+    (date, eventList = events) => {
+      const formattedDate = date.toDateString();
+      const eventsOnDate = eventList.filter(
         (event) => new Date(event.date).toDateString() === formattedDate
       );
       setSelectedEvents(eventsOnDate);
-    };
-    getEvents();
+    },
+    [events]
+  );
+
+  // Manejar cambio de fecha en el calendario
+  const handleDateSelect = useCallback(
+    (date) => {
+      setSelectedDate(date);
+      filterEventsByDate(date);
+    },
+    [filterEventsByDate]
+  );
+
+  // Manejar cambio de mes en el calendario
+  const handleMonthChange = useCallback((newMonth) => {
+    setCurrentMonth(newMonth);
   }, []);
 
-  const handleDateSelect = (date) => {
-    setSelectedDate(date);
-    const formattedDate = new Date(date).toDateString();
-    const eventsOnDate = events.filter(
-      (event) => new Date(event.date).toDateString() === formattedDate
-    );
-    console.log("Eventos filtrados para la fecha seleccionada:", eventsOnDate);
-    setSelectedEvents(eventsOnDate);
-  };
-
   return (
-    <div className="grid">
-      {/* Calendario en el lado izquierdo */}
-      <div className="col-8">
-        <EventCalendar selectedDate={selectedDate} onSelectDate={handleDateSelect} />
+    <div className="flex flex-wrap md:flex-nowrap gap-4 p-4">
+      <div className="w-full md:w-2/3">
+          <Panel header="Calendario" className="text-xl font-bold">
+            <EventCalendar 
+              selectedDate={selectedDate} 
+              onSelectDate={handleDateSelect} 
+              onMonthChange={handleMonthChange} 
+            />
+          </Panel>
       </div>
 
-      {/* Agenda en el lado derecho */}
-      <div className="col-4">
-        <EventAgenda events={selectedEvents} />
+      <div className="w-full md:w-1/3">
+          <Panel header="Agenda" className="text-xl font-bold">
+            {loading ? (
+              <div className="flex justify-content-center p-4">
+                <ProgressSpinner />
+              </div>
+            ) : (
+              <EventAgenda events={selectedEvents} />
+            )}
+          </Panel>
       </div>
     </div>
   );
