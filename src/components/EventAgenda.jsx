@@ -1,18 +1,22 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Card } from "primereact/card";
 import { Paginator } from "primereact/paginator";
+import { Badge } from "primereact/badge";
 import "../styles/EventAgenda.css";
 
 const isEventExpired = (eventDate, eventTime) => {
   const times = eventTime.split(" - ");
-  let endTimeStr;
-  if (times.length === 2) {
-    endTimeStr = times[1].trim();
-  } else {
-    endTimeStr = eventTime.trim();
-  }
+  let endTimeStr = times.length === 2 ? times[1].trim() : eventTime.trim();
   const eventEndDateTime = new Date(`${eventDate}T${endTimeStr}:00`);
   return new Date() > eventEndDateTime;
+};
+
+const isNewEvent = (eventDate) => {
+  const eventDateTime = new Date(eventDate);
+  const today = new Date();
+  const sevenDaysLater = new Date();
+  sevenDaysLater.setDate(today.getDate() + 7);
+  return eventDateTime >= today && eventDateTime <= sevenDaysLater;
 };
 
 const EventAgenda = ({ events }) => {
@@ -38,7 +42,20 @@ const EventAgenda = ({ events }) => {
         <div className="grid">
           {paginatedEvents.map((event) => (
             <div key={event.id} className="col-12 md-6 lg-4">
-              <Card className="mb-3 p-shadow-2" title={event.title}>
+              <Card
+                title={
+                  <div>
+                    {event.title}{" "}
+                    {isNewEvent(event.date) && (
+                      <Badge
+                        value="Nuevo"
+                        severity="success"
+                        className="ml-2"
+                      />
+                    )}
+                  </div>
+                }
+              >
                 <p className="m-1">
                   <strong>Fecha:</strong>{" "}
                   {new Date(event.date).toLocaleDateString()}
@@ -58,7 +75,9 @@ const EventAgenda = ({ events }) => {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={event.link !== "#" ? "p-enabled" : "p-disabled"}
+                      className={
+                        event.link !== "#" ? "p-enabled" : "p-disabled"
+                      }
                     >
                       {event.link !== "#" ? "Enlace del evento" : "Sin enlace"}
                     </a>
