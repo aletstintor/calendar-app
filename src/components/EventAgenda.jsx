@@ -50,23 +50,23 @@ const EventAgenda = ({ events }) => {
                       <Badge
                         value="Nuevo"
                         severity="success"
-                        className="ml-2"
+                        className="ml-2 vertical-align-middle"
                       />
                     )}
                   </div>
                 }
               >
-                <p className="m-1">
+                <p className="m-0">
                   <strong>Fecha:</strong>{" "}
                   {new Date(event.date).toLocaleDateString()}
                 </p>
-                <p className="m-1">
+                <p className="m-0">
                   <strong>Hora:</strong> {event.time}
                 </p>
-                <p className="m-1">
+                <p className="m-0">
                   <strong>Lugar:</strong> {event.place}
                 </p>
-                <p className="m-1">
+                <p className="m-0">
                   <strong>Enlace:</strong>{" "}
                   {isEventExpired(event.date, event.time) ? (
                     <span>Expirado</span>

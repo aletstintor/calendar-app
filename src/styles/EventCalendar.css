@@ -19,9 +19,9 @@
 }
 
 @keyframes natural-pulse {
-    0% { transform: scale(1); opacity: 1; }
+    0% { transform: scale(.8); opacity: 1; }
     40% { transform: scale(1.4); opacity: 0.8; }
-    60% { transform: scale(1); opacity: 1; }
+    60% { transform: scale(.8); opacity: 1; }
     100% { transform: scale(1.2); opacity: 0.9; }
 }
 
