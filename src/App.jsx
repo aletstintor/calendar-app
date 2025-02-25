@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Calendar from "./pages/Calendar";
+import NotFound from "./components/NotFound";
 import "./App.css";
 
 function App() {
@@ -11,10 +12,11 @@ function App() {
     <Router>
       <div className="flex flex-column" style={{ minHeight: "100vh" }}>
         <Navbar />
-        <div className="flex-grow-1 p-4">
+        <div className="flex-1 p-4">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/calendar" element={<Calendar />} />
+            <Route path="/*" element={<NotFound />} />
           </Routes>
         </div>
         <div className="mt-auto">

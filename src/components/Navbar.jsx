@@ -29,7 +29,6 @@ const Navbar = () => {
     return today.toLocaleDateString("es-ES", options);
   };
 
-  // Área "start": Logo y Título
   const start = (
     location.pathname === "/calendar" ? (
       <button
@@ -48,7 +47,6 @@ const Navbar = () => {
     </div>)
   );
 
-  // Área "end": Botón de retroceso si estamos en "/calendar", o bien el saludo y la fecha.
   const end =
     (
       <div className="flex flex-column">

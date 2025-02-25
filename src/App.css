@@ -4,13 +4,8 @@ body {
     "Helvetica Neue", Arial, sans-serif;
 }
 
-@media (max-width: 768px) {
-  .p-menubar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .p-menubar-end {
-    margin-top: 10px;
+@media screen and (max-width: 768px) {
+  .p-menubar .p-menubar-button {
+    display: none !important;
   }
 }

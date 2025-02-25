@@ -13,7 +13,7 @@ const apps = [
 
 const Home = () => {
   return (
-    <div className="grid">
+    <div className="grid p-4">
       {apps.map((app) => (
         <div key={app.name} className="col-12 sm:col-6 md:col-3 p-2">
           {app.name === "Calendario GAFI" ? (
