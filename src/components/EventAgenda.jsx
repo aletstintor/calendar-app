@@ -35,9 +35,9 @@ const EventAgenda = ({ events }) => {
   return (
     <div>
       {paginatedEvents.length > 0 ? (
-        <div className="p-grid">
+        <div className="grid">
           {paginatedEvents.map((event) => (
-            <div key={event.id} className="p-col-12 p-md-6 p-lg-4">
+            <div key={event.id} className="col-12 md-6 lg-4">
               <Card className="mb-3 p-shadow-2" title={event.title}>
                 <p className="m-1">
                   <strong>Fecha:</strong>{" "}

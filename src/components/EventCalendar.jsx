@@ -36,7 +36,7 @@ const EventCalendar = ({ onSelectDate }) => {
     });
 
     return (
-        <div>
+        <div className="flex justify-content-center align-items-center">
             <Calendar
                 value={date}
                 onChange={handleDateSelect}

@@ -18,9 +18,9 @@ const useICalWatcher = () => {
       }
     };
 
-    fetchEvents();
-    const interval = setInterval(fetchEvents, 1000);
-    return () => clearInterval(interval);
+    return () => fetchEvents();
+    // const interval = setInterval(fetchEvents, 1000);
+    // return () => clearInterval(interval);
   }, []);
 
   return events;

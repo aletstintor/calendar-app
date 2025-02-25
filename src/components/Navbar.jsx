@@ -1,51 +1,68 @@
 import React, { useState } from "react";
 import { Menubar } from "primereact/menubar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "primereact/resources/themes/saga-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import logo from "../assets/logo.png";
+import "../styles/icons-portal.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [menuActive, setMenuActive] = useState(false);
 
-  const navigateTo = (url) => {
-    window.open(url, "_blank");
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return "¡Buenos días!";
+    if (hour >= 12 && hour < 19) return "¡Buenas tardes!";
+    return "¡Buenas noches!";
   };
 
-  const items = [
-    {
-      label: "GAFI",
-      command: () => navigateTo("https://www.gafi.com.mx/"),
-    },
-    {
-      label: "Workbeat",
-      command: () => navigateTo("https://login.workbeat.com/"),
-    },
-    {
-      label: "ISO Tools",
-      command: () =>
-        navigateTo("https://appamx.esginnova.com/login/acceso.cfm"),
-    },
-  ];
+  const getTodayDate = () => {
+    const today = new Date();
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    return today.toLocaleDateString("es-ES", options);
+  };
 
+  // Área "start": Logo y Título
   const start = (
-    <a href="/" className="text-center">
-      <img alt="logo" src={logo} height="50" className="mr-2" />
-      Portal GAFI
-    </a>
+    location.pathname === "/calendar" ? (
+      <button
+        onClick={() => navigate("/")}
+        className="p-button p-button-text"
+        title="Regresar al inicio"
+      >
+        <i className="pi pi-arrow-left" style={{ fontSize: "1.5rem" }}></i>
+      </button>
+    ) : (
+    <div className="flex align-content-center flex-wrap">
+      <div className="flex align-items-center justify-content-center">
+        <span className="custom-icon icon-gafi text-7xl p-mr-2"></span>
+        <h2 className="p-m-0">Portal GAFI</h2>
+      </div>
+    </div>)
   );
 
+  // Área "end": Botón de retroceso si estamos en "/calendar", o bien el saludo y la fecha.
+  const end =
+    (
+      <div className="flex flex-column">
+        <p className="m-2">{getGreeting()}</p>
+        <small className="m-2">{getTodayDate()}</small>
+      </div>
+    );
+
   return (
-    <div>
-      <Menubar
-        model={items}
-        start={start}
-        className="p-mb-4 justify-content-between flex"
-        onToggle={(e) => setMenuActive(e.value)}
-      />
-    </div>
+    <Menubar
+      start={start}
+      end={end}
+      className="justify-content-around"
+    />
   );
 };
 

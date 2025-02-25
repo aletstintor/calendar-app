@@ -34,7 +34,7 @@ const EventManager = () => {
 
   useEffect(() => {
     fetchAndFilterEvents();
-    const intervalId = setInterval(fetchAndFilterEvents, 5000);
+    const intervalId = setInterval(fetchAndFilterEvents, 1000);
     return () => clearInterval(intervalId);
   }, [fetchAndFilterEvents]);
 
@@ -47,8 +47,8 @@ const EventManager = () => {
   }, []);
 
   return (
-    <div className="flex flex-wrap md:flex-nowrap gap-4 p-4">
-      <div className="w-full md:w-2/3">
+    <div className="grid p-4 gap-4">
+      <div className="col sm:col-12 md:col-12 lg:col">
         <Panel header="Calendario" className="text-xl font-bold">
           <EventCalendar
             selectedDate={selectedDate}
@@ -57,8 +57,7 @@ const EventManager = () => {
           />
         </Panel>
       </div>
-
-      <div className="w-full md:w-1/3">
+      <div className="col sm:col-12 md:col-12 lg:col">
         <Panel header="Agenda" className="text-xl font-bold">
           <EventAgenda events={selectedEvents} />
         </Panel>
