@@ -7,7 +7,7 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: process.env.VITE_GOOGLE_CALENDAR_URL,
+				target: process.env.ICAL_URL,
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ''),
 			},
